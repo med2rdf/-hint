@@ -1,0 +1,8 @@
+# HiNT
+@prefix obo:<http://purl.obolibrary.org/obo/> .
+@prefix pint:<http://purl.jp/pinteraction/> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix xsd:<http://www.w3.org/2001/XMLSchema#> .
+@prefix hnt:<http://identifiers.org/HINT> .
+@prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix bp3:<http://identifiers.org/Pfam/> .
