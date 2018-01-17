@@ -1,33 +1,32 @@
 {# HiNT
-　　埋込み用変数一覧
-　{{organism}}          #種族
-	{{ message.SNo }}				#主語に付与する連番
-	{{ message.UniprotA }}	#A列
-	{{ message.UniprotB }}	#B列
-	{{ message.GeneA }}			#C列
-	{{ message.GeneB }}			#D列
-	{{ message.proteinForm }}
-	{{ message.hilo }}　　　　　#value: "hi" or "lo" example:{{ message.hilo }}-Quality
+Embedded variable list
+{{organism}}
+{{ message.SNo }}
+{{ message.UniprotA }}
+{{ message.UniprotB }}
+{{ message.GeneA }}
+{{ message.GeneB }}
+{{ message.proteinForm }} # "binary" or "co-complex"
+{{ message.hilo }}        # "high" or "low"
 
-
-	{{ Publication.Comma }}		# 0:カンマ非出力, >1:カンマ出力
-	{{ Publication.DB }}			#DB
-	{{ Publication.ID }}			#I列[0] 文献番号
-	{{ Publication.Method }}	#I列[1]
-	{{ Publication.Quality }}	#I列[2] value: "high-throughput" or "literature-curated"
+{{ Publication.Comma }}   # 0:put no-comma, >1:put comma
+{{ Publication.DB }}      # Database name
+{{ Publication.ID }} i    # pmid
+{{ Publication.Method }} 
+{{ Publication.Quality }} # "high-throughput" or "literature-curated"
 #}
 
 hnt:{{ message.UniprotA }}-{{ message.UniprotB }}
-    pint:dataSource <http://identifiers.org/HINT> ;
-    pint:displayName "{{ message.UniprotA }}-{{ message.UniprotB　}}"^^xsd:string ;
-    pint:evidence  {% for Publication in message.Publications %}{% if Publication.Comma > 0 %},{% endif %} pint:evidence-{{ Publication.DB }}_{{ Publication.ID }}-MI_{{ Publication.Method }}-{{ Publication.Quality }} {% endfor %} ;
-    pint:name ""^^xsd:string ;
-    pint:participant [
+    bp3:dataSource <http://identifiers.org/HINT> ;
+    bp3:displayName "{{ message.UniprotA }}-{{ message.UniprotB }}"^^xsd:string ;
+    bp3:evidence  {% for Publication in message.Publications %}{% if Publication.Comma > 0 %},{% endif %} pint:evidence-{{ Publication.DB }}_{{ Publication.ID }}-MI_{{ Publication.Method }}-{{ Publication.Quality }} {% endfor %} ;
+    bp3:name "{{ message.UniprotA }}-{{ message.UniprotB }}"^^xsd:string ;
+    bp3:participant [
         obo:BFO_0000051 <http://idetifiers.org/uniprot/{{ message.UniprotA }}> ;
        ] ;
-    pint:participant [
+    bp3:participant [
         obo:BFO_0000051 <http://idetifiers.org/uniprot/{{ message.UniprotB }}> ;
        ] ;
     pint:networkVariety "{{ message.proteinForm }}"^^xsd:string ;
     pint:accuracy "{{ message.hilo }}"^^xsd:string ;
-    a pint:MolecularInteraction .
+    a bp3:MolecularInteraction .

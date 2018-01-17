@@ -5,4 +5,5 @@
 @prefix xsd:<http://www.w3.org/2001/XMLSchema#> .
 @prefix hnt:<http://identifiers.org/HINT> .
 @prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix bp3:<http://identifiers.org/Pfam/> .
+@prefix pfm:<http://identifiers.org/Pfam/> .
+@prefix bp3:<http://www.biopax.org/release/biopax-level3.owl#> .

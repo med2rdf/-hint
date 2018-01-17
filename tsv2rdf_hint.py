@@ -11,6 +11,7 @@ import logging
 
 IN_DATA_DIR = 'data_h'
 RDF_TEMPLATE='templ_hint.ttl'
+EXEC_PATH = '/tmp'
 MOUNT_PATH = '/mnt'
 TEMPLATE_BODY = 'templ_hint.ttl'
 TEMPLATE_EVI = 'templ_hint.ttl.evi'
@@ -19,9 +20,9 @@ TEMPLATE_PREFIX = 'templ_hint.ttl.prefix'
 class Message(object):
     def __init__(self, subject_no, data ):
         '''
-        @param subject_no: 主語に付与する連番
-        @param data: HiNTのデータ（1レコード）
-        @summary: HiNTのデータ（1レコード）をMessageオブジェクトに格納する
+        @param subject_no: Subject serial number
+        @param data: HiNT data (1 row)
+        @summary: Store HiNT data (1 row) in the Message object
         '''
 
         self.SNo = subject_no
@@ -35,8 +36,23 @@ class Message(object):
         self.AliasB = data["Alias_B"]
 
         #Publications
+        self.Publications = []
+        for comma, publication in enumerate(data["pmid:method:quality"].split('|')):
+            
+            pmids, method, quality = publication.split(':')
+            if ';' in pmids:
+                #if publication has multiple pmid               
+                for pmid in pmids.split(';'):
+                    new_publication = '%s:%s:%s' % (pmid, method, quality)
+                    self.Publications.append(Publications(comma, new_publication))
+            else:
+                self.Publications.append(Publications(comma, publication))
+                pass
+        
+        '''
         self.Publications = [ Publications(comma, publication)
                              for comma, publication in enumerate(data["pmid:method:quality"].split('|')) ]
+        '''
 
         self.hilo = data["hi/lo"]
         self.proteinForm = data["proteinForm"]
@@ -46,13 +62,10 @@ class Message(object):
 class Publications(object):
     def __init__(self, comma, publication ):
         '''
-        @param comma: 複数のPublicationを出力する際のカンマの出力制御用の変数
-        @param publication: 文献のID
-        @summary: 複数のPublicationをPublicationsオブジェクトに格納する
+        @param comma: Variables for controlling output of commas when outputting multiple publications
+        @param publication: ID of document
+        @summary: Store multiple Publications in the Publications object
         '''
-
-        #セミコロンを含むデータがあるためエスケープする
-        publication.replace(";","\;")
 
         wk_publication = publication.split(':')
 
@@ -66,22 +79,36 @@ class Publications(object):
 
 def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
     import pandas as pd
+    import uuid
 
-    hint_bi_allDF=pd.read_csv(bi_all, delimiter="\t")
-    hint_cc_allDF=pd.read_csv(cc_al, delimiter="\t")
+    uu = str(uuid.uuid1())
 
-    if cc_hq is not None:
-        hint_bi_hqDF=pd.read_csv(bi_hq, delimiter="\t")
-    else:
-        hint_bi_hqDF = pd.DataFrame(columns=hint_bi_allDF.columns)
+    try:
+        hint_bi_allDF=pd.read_csv(bi_all, delimiter="\t")
+        hint_cc_allDF=pd.read_csv(cc_al, delimiter="\t")
+    
+        if cc_hq is not None:
+            hint_bi_hqDF=pd.read_csv(bi_hq, delimiter="\t")
+        else:
+            hint_bi_hqDF = pd.DataFrame(columns=hint_bi_allDF.columns)
+    
+        if cc_hq is not None:
+            hint_cc_hqDF=pd.read_csv(cc_hq, delimiter="\t")
+        else:
+            hint_cc_hqDF = pd.DataFrame(columns=hint_cc_allDF.columns)
+    except Exception as e:
+        logger.error("%s" % e.message)
+        sys.exit()
 
-    if cc_hq is not None:
-        hint_cc_hqDF=pd.read_csv(cc_hq, delimiter="\t")
-    else:
-        hint_cc_hqDF = pd.DataFrame(columns=hint_cc_allDF.columns)
+    #
+    # binary
+    #
 
     qdiffDF=pd.merge(hint_bi_allDF, hint_bi_hqDF, on=["Uniprot_A", "Uniprot_B"], how="outer")
-    hint_bi_onlyhqDF=qdiffDF[(qdiffDF["pmid:method:quality_y"].fillna("nan") == "nan")][[
+    
+    #qdiffDF.to_excel("debug/debug_%s_qdiffDF.xlsx" % uu)
+    
+    hint_bi_onlylqDF=qdiffDF[(qdiffDF["pmid:method:quality_y"].fillna("nan") == "nan")][[
         "Uniprot_A",
         "Uniprot_B",
         "Gene_A_x",
@@ -91,32 +118,6 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
         "Alias_A_x",
         "Alias_B_x",
         "pmid:method:quality_x"]]
-    hint_bi_onlyhqDF.columns=[
-        "Uniprot_A",
-        "Uniprot_B",
-        "Gene_A",
-        "Gene_B",
-        "ORF_A",
-        "ORF_B",
-        "Alias_A",
-        "Alias_B",
-        "pmid:method:quality"]
-    hint_bi_onlyhqDF["hi/lo"]="high"
-    hint_bi_onlyhqDF["proteinForm"]="binary"
-
-    hint_bi_onlylqDF=qdiffDF[(
-        qdiffDF["pmid:method:quality_y"].fillna("nan") != "nan")
-        & (qdiffDF["pmid:method:quality_x"].fillna("nan") != "nan")
-        & (qdiffDF["pmid:method:quality_x"].fillna("nan") == qdiffDF["pmid:method:quality_y"].fillna("nan"))][
-            ["Uniprot_A",
-             "Uniprot_B",
-             "Gene_A_x",
-             "Gene_B_x",
-             "ORF_A_x",
-             "ORF_B_x",
-             "Alias_A_x",
-             "Alias_B_x",
-             "pmid:method:quality_x"]]
     hint_bi_onlylqDF.columns=[
         "Uniprot_A",
         "Uniprot_B",
@@ -130,18 +131,22 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
     hint_bi_onlylqDF["hi/lo"]="low"
     hint_bi_onlylqDF["proteinForm"]="binary"
 
+    #hint_bi_onlylqDF.to_excel("debug/debug_%s_hint_bi_onlylqDF.xlsx" % uu)
 
-    hint_bi_onlyhq2DF=qdiffDF[(qdiffDF["pmid:method:quality_x"].fillna("nan") == "nan")][[
-        "Uniprot_A",
-        "Uniprot_B",
-        "Gene_A_y",
-        "Gene_B_y",
-        "ORF_A_y",
-        "ORF_B_y",
-        "Alias_A_y",
-        "Alias_B_y",
-        "pmid:method:quality_y"]]
-    hint_bi_onlyhq2DF.columns=[
+    hint_bi_onlyhqDF=qdiffDF[(
+        qdiffDF["pmid:method:quality_y"].fillna("nan") != "nan")
+        & (qdiffDF["pmid:method:quality_x"].fillna("nan") != "nan")
+        & (qdiffDF["pmid:method:quality_x"].fillna("nan") == qdiffDF["pmid:method:quality_y"].fillna("nan"))][
+            ["Uniprot_A",
+             "Uniprot_B",
+             "Gene_A_x",
+             "Gene_B_x",
+             "ORF_A_x",
+             "ORF_B_x",
+             "Alias_A_x",
+             "Alias_B_x",
+             "pmid:method:quality_x"]]
+    hint_bi_onlyhqDF.columns=[
         "Uniprot_A",
         "Uniprot_B",
         "Gene_A",
@@ -151,13 +156,22 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
         "Alias_A",
         "Alias_B",
         "pmid:method:quality"]
-    hint_bi_onlyhq2DF["hi/lo"]="high"
-    hint_bi_onlyhq2DF["proteinForm"]="binary"
+    hint_bi_onlyhqDF["hi/lo"]="high"
+    hint_bi_onlyhqDF["proteinForm"]="binary"
+    
+    #hint_bi_onlyhqDF.to_excel("debug/debug_%s_hint_bi_onlyhqDF.xlsx" % uu)
+    
+    hint_biDF=pd.concat([hint_bi_onlyhqDF, hint_bi_onlylqDF]).sort_index()
 
-    hint_biDF=pd.concat([hint_bi_onlyhqDF, hint_bi_onlyhq2DF, hint_bi_onlylqDF]).sort_index()
-
+    #
+    # co-complex
+    #
+    
     qdiff2DF=pd.merge(hint_cc_allDF, hint_cc_hqDF, on=["Uniprot_A", "Uniprot_B"], how="outer")
-    hint_cc_onlyhqDF=qdiff2DF[(qdiff2DF["pmid:method:quality_y"].fillna("nan") == "nan")][[
+    
+    #qdiff2DF.to_excel("debug/debug_%s_qdiff2DF.xlsx" % uu)
+    
+    hint_cc_onlylqDF=qdiff2DF[(qdiff2DF["pmid:method:quality_y"].fillna("nan") == "nan")][[
         "Uniprot_A",
         "Uniprot_B",
         "Gene_A_x",
@@ -167,30 +181,6 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
         "Alias_A_x",
         "Alias_B_x",
         "pmid:method:quality_x"]]
-    hint_cc_onlyhqDF.columns=[
-        "Uniprot_A",
-        "Uniprot_B",
-        "Gene_A",
-        "Gene_B",
-        "ORF_A",
-        "ORF_B",
-        "Alias_A",
-        "Alias_B",
-        "pmid:method:quality"]
-    hint_cc_onlyhqDF["hi/lo"]="low"
-    hint_cc_onlyhqDF["proteinForm"]="co-complex"
-
-    hint_cc_onlylqDF=qdiff2DF[(qdiff2DF["pmid:method:quality_y"].fillna("nan") != "nan") & (qdiff2DF["pmid:method:quality_x"].fillna("nan") != "nan")
-       & (qdiff2DF["pmid:method:quality_x"].fillna("nan") == qdiff2DF["pmid:method:quality_y"].fillna("nan"))][
-           ["Uniprot_A",
-            "Uniprot_B",
-            "Gene_A_y",
-            "Gene_B_y",
-            "ORF_A_y",
-            "ORF_B_y",
-            "Alias_A_y",
-            "Alias_B_y",
-            "pmid:method:quality_y"]]
     hint_cc_onlylqDF.columns=[
         "Uniprot_A",
         "Uniprot_B",
@@ -201,8 +191,36 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
         "Alias_A",
         "Alias_B",
         "pmid:method:quality"]
-    hint_cc_onlylqDF["hi/lo"]="high"
+    hint_cc_onlylqDF["hi/lo"]="low"
     hint_cc_onlylqDF["proteinForm"]="co-complex"
+
+    #hint_cc_onlylqDF.to_excel("debug/debug_%s_hint_cc_onlylqDF.xlsx" % uu)
+
+    hint_cc_onlyhqDF=qdiff2DF[(qdiff2DF["pmid:method:quality_y"].fillna("nan") != "nan") & (qdiff2DF["pmid:method:quality_x"].fillna("nan") != "nan")
+       & (qdiff2DF["pmid:method:quality_x"].fillna("nan") == qdiff2DF["pmid:method:quality_y"].fillna("nan"))][
+           ["Uniprot_A",
+            "Uniprot_B",
+            "Gene_A_y",
+            "Gene_B_y",
+            "ORF_A_y",
+            "ORF_B_y",
+            "Alias_A_y",
+            "Alias_B_y",
+            "pmid:method:quality_y"]]
+    hint_cc_onlyhqDF.columns=[
+        "Uniprot_A",
+        "Uniprot_B",
+        "Gene_A",
+        "Gene_B",
+        "ORF_A",
+        "ORF_B",
+        "Alias_A",
+        "Alias_B",
+        "pmid:method:quality"]
+    hint_cc_onlyhqDF["hi/lo"]="high"
+    hint_cc_onlyhqDF["proteinForm"]="co-complex"
+
+    #hint_cc_onlyhqDF.to_excel("debug/debug_%s_hint_cc_onlyhqDF.xlsx" % uu)
 
     hint_ccDF=pd.concat([hint_cc_onlyhqDF, hint_cc_onlylqDF]).sort_index()
 
@@ -213,11 +231,10 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
 
 def main(fw, template, organism=None, bi_all = None, bi_hq = None, cc_al = None, cc_hq = None ):
 
-    # テンプレートの読み込み
     env = Environment(loader = FileSystemLoader(".", encoding='utf8'), autoescape = False)
     imageTemplate = env.get_template(template['body'])
 
-    evidenceList=[] #エビデンス
+    evidenceList=[]
 
     hint_DF = read_tsv(bi_all, bi_hq, cc_al, cc_hq)
 
@@ -232,7 +249,7 @@ def main(fw, template, organism=None, bi_all = None, bi_hq = None, cc_al = None,
 
         fw.write(FeedContent)
 
-    # テンプレートの読み込み(evidence)
+    # Read template (evidence)
     env = Environment(loader = FileSystemLoader(".", encoding='utf8'), autoescape = False)
     imageTemplate = env.get_template(template['evidence'])
 
@@ -253,30 +270,29 @@ if __name__ == '__main__':
     parser.add_option( "-c", type="string", help="config_file", dest="config", default= 'tsv2rdf_hint.json')
     (options, args) = parser.parse_args()
 
-    #ログ関連の設置
+    #Log setting
     argvs = sys.argv
     LOG_FILENAME = '%s.log' % argvs[0].split('.')[0]
     logging.basicConfig(format='%(asctime)s:%(levelname)s:%(message)s',level=logging.DEBUG)
     logger = logging.getLogger()
 
-    #コンソールログ
-    '''
-    stream_log = logging.StreamHandler()
-    stream_log.setLevel(logging.DEBUG)
-    stream_log.setFormatter(logging.Formatter('%(asctime)s;%(levelname)s:%(message)s'))
-    '''
-
-    #ファイルログ
+    #File log
     file_log = logging.handlers.RotatingFileHandler(filename=LOG_FILENAME)
     file_log.setLevel(logging.DEBUG)
     file_log.setFormatter(logging.Formatter('%(asctime)s;%(levelname)s:%(message)s'))
 
-    #ハンドラの設定
+    #Log handler setting
     #logging.getLogger().addHandler(stream_log)
     logging.getLogger().addHandler(file_log)
 
-    #定義ファイルの読み込み
-    f = open(options.config ,"r")
+    #Reading the configuration file
+    try:
+        f = open(options.config ,"r")
+    except Exception as e:
+        logger.error("%s: %s" % (e.message,options.config))
+        sys.exit()
+        
+    
     config = json.load(f)
     logger.info("Organism: %s" % ",".join([ k for k,v in config['organism'].items() ]))
 
@@ -284,29 +300,29 @@ if __name__ == '__main__':
     template = config['template']
     data_path = config['data_path']
 
-    #出力先ファイル
-    if os.path.exists(output_file) != True:
+    #Output file
+    if os.getcwd() == '/tmp':
         output_file = os.path.join(MOUNT_PATH, output_file)
         fw = open(output_file, 'w')
     else:
         fw = open(output_file, 'w')
 
-    #テンプレートファイルのチェック
+    #Check template file
     if os.path.exists(template['body']) != True:
-        template['body'] = os.path.join(MOUNT_PATH, template['body'])
-        logger.info("Set new template file path: %s" % template['body'])
+        template['body'] = os.path.join(EXEC_PATH, template['body'])
+        logger.info("Set template file path: %s" % template['body'])
     if os.path.exists(template['evidence']) != True:
-        template['evidence'] = os.path.join(MOUNT_PATH, template['evidence'])
-        logger.info("Set new template file path: %s" % template['evidence'])
+        template['evidence'] = os.path.join(EXEC_PATH, template['evidence'])
+        logger.info("Set template file path: %s" % template['evidence'])
     if os.path.exists(template['prefix']) != True:
-        template['prefix'] = os.path.join(MOUNT_PATH, template['prefix'])
-        logger.info("Set new template file path: %s" % template['prefix'])
+        template['prefix'] = os.path.join(EXEC_PATH, template['prefix'])
+        logger.info("Set template file path: %s" % template['prefix'])
 
     if os.path.exists(data_path) != True:
         data_path = os.path.join(MOUNT_PATH, data_path)
-        logger.info("Set new data_path: %s" % data_path)
+        logger.info("Set data_path: %s" % data_path)
 
-    #prefixの出力
+    #Output of prefix
     fp = open(template['prefix'], 'r')
     prefixes = fp.readlines()
     for prefix in prefixes:
@@ -323,6 +339,8 @@ if __name__ == '__main__':
             cc_hq = os.path.join(data_path, v['cocomp_hq'])
         else:
             cc_hq = None
+
+        logger.info("Processing organism: %s" % k)
 
         main(
             fw,
