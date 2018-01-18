@@ -1,9 +1,10 @@
-{#  埋込み用変数一覧                    
+{# 
+Embedded variable list                   
           
-"   {{ Publication.DB }}"
-"   {{ Publication.ID }}      #I列[0]"  
-"   {{ Publication.Method }}　  #I列[1]"         
-"   {{ Publication.Quality }}   #I列[2]"         
+{{ Publication.DB }}      # Database name
+{{ Publication.ID }}      # pmid 
+{{ Publication.Method }}         
+{{ Publication.Quality }} # "high-throughput" or "literature-curated"         
             
 #}
 {% for Publication in Publications %}
