@@ -17,7 +17,7 @@ Edit the following definition file.
     tsv2rdf_hint.json
 
 
-'''
+```
 {
 	"organism":{
 		"HomoSapiens":{
@@ -101,7 +101,7 @@ Edit the following definition file.
 	"data_path":"data_h"
 
 }
-'''
+```
 
 ## Usage
 
