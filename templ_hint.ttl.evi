@@ -9,8 +9,8 @@ Embedded variable list
 #}
 {% for Publication in Publications %}
 pint:evidence-{{ Publication.DB }}_{{ Publication.ID }}-MI_{{ Publication.Method }}-{{ Publication.Quality }}
-    bp3:experimentalForm <http://identifiers.org/psimi/MI%3A{{ Publication.Method }}> ;
-    dcterms:reference <http://identifiers.org/{{ Publication.DB }}/{{ Publication.ID }}> ;
-    pint:dateSourceType  "{{ Publication.Quality }}" ;
+    bp3:evidenceCode obo:MI_{{ Publication.Method }} ;
+    dcterms:references <http://identifiers.org/{{ Publication.DB }}/{{ Publication.ID }}> ;
+    pint:dataSourceType  "{{ Publication.Quality }}" ;
     a bp3:Evidence .
 {% endfor %}
