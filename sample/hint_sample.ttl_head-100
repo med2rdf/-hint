@@ -1,0 +1,100 @@
+# HiNT
+@prefix obo:<http://purl.obolibrary.org/obo/> .
+@prefix pint:<http://purl.jp/10/pint/> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix xsd:<http://www.w3.org/2001/XMLSchema#> .
+@prefix hnt:<http://purl.jp/10/hint/> .
+@prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix pfm:<http://identifiers.org/Pfam/> .
+@prefix bp3:<http://www.biopax.org/release/biopax-level3.owl#> .
+@prefix uni:<http://identifiers.org/uniprot/> .
+
+
+hnt:A0A0K3AUU0-Q20062
+    bp3:dataSource <http://identifiers.org/HINT> ;
+    bp3:displayName "A0A0K3AUU0-Q20062"^^xsd:string ;
+    bp3:evidence   pint:evidence-pubmed_14704431-MI_0018-high-throughput  ;
+    bp3:name "A0A0K3AUU0-Q20062"^^xsd:string ;
+    bp3:participant [
+        obo:BFO_0000051 uni:A0A0K3AUU0 ;
+       ] ;
+    bp3:participant [
+        obo:BFO_0000051 uni:Q20062 ;
+       ] ;
+    pint:networkVariety "binary"^^xsd:string ;
+    pint:accuracy "high"^^xsd:string ;
+    a bp3:MolecularInteraction .
+
+hnt:A0A0K3AUY4-O16519
+    bp3:dataSource <http://identifiers.org/HINT> ;
+    bp3:displayName "A0A0K3AUY4-O16519"^^xsd:string ;
+    bp3:evidence   pint:evidence-pubmed_14704431-MI_0398-high-throughput , pint:evidence-pubmed_14704431-MI_0018-high-throughput  ;
+    bp3:name "A0A0K3AUY4-O16519"^^xsd:string ;
+    bp3:participant [
+        obo:BFO_0000051 uni:A0A0K3AUY4 ;
+       ] ;
+    bp3:participant [
+        obo:BFO_0000051 uni:O16519 ;
+       ] ;
+    pint:networkVariety "binary"^^xsd:string ;
+    pint:accuracy "high"^^xsd:string ;
+    a bp3:MolecularInteraction .
+
+hnt:A0A0K3AV08-O17583
+    bp3:dataSource <http://identifiers.org/HINT> ;
+    bp3:displayName "A0A0K3AV08-O17583"^^xsd:string ;
+    bp3:evidence   pint:evidence-pubmed_23549480-MI_0018-high-throughput  ;
+    bp3:name "A0A0K3AV08-O17583"^^xsd:string ;
+    bp3:participant [
+        obo:BFO_0000051 uni:A0A0K3AV08 ;
+       ] ;
+    bp3:participant [
+        obo:BFO_0000051 uni:O17583 ;
+       ] ;
+    pint:networkVariety "binary"^^xsd:string ;
+    pint:accuracy "high"^^xsd:string ;
+    a bp3:MolecularInteraction .
+
+hnt:A0A0K3AV08-Q10457
+    bp3:dataSource <http://identifiers.org/HINT> ;
+    bp3:displayName "A0A0K3AV08-Q10457"^^xsd:string ;
+    bp3:evidence   pint:evidence-pubmed_23549480-MI_0018-high-throughput  ;
+    bp3:name "A0A0K3AV08-Q10457"^^xsd:string ;
+    bp3:participant [
+        obo:BFO_0000051 uni:A0A0K3AV08 ;
+       ] ;
+    bp3:participant [
+        obo:BFO_0000051 uni:Q10457 ;
+       ] ;
+    pint:networkVariety "binary"^^xsd:string ;
+    pint:accuracy "high"^^xsd:string ;
+    a bp3:MolecularInteraction .
+
+hnt:A0A0K3AV08-Q45FX5
+    bp3:dataSource <http://identifiers.org/HINT> ;
+    bp3:displayName "A0A0K3AV08-Q45FX5"^^xsd:string ;
+    bp3:evidence   pint:evidence-pubmed_23549480-MI_0018-high-throughput  ;
+    bp3:name "A0A0K3AV08-Q45FX5"^^xsd:string ;
+    bp3:participant [
+        obo:BFO_0000051 uni:A0A0K3AV08 ;
+       ] ;
+    bp3:participant [
+        obo:BFO_0000051 uni:Q45FX5 ;
+       ] ;
+    pint:networkVariety "binary"^^xsd:string ;
+    pint:accuracy "high"^^xsd:string ;
+    a bp3:MolecularInteraction .
+
+hnt:A0A0K3AV08-Q8MXK0
+    bp3:dataSource <http://identifiers.org/HINT> ;
+    bp3:displayName "A0A0K3AV08-Q8MXK0"^^xsd:string ;
+    bp3:evidence   pint:evidence-pubmed_14704431-MI_0398-high-throughput , pint:evidence-pubmed_14704431-MI_0018-high-throughput  ;
+    bp3:name "A0A0K3AV08-Q8MXK0"^^xsd:string ;
+    bp3:participant [
+        obo:BFO_0000051 uni:A0A0K3AV08 ;
+       ] ;
+    bp3:participant [
+        obo:BFO_0000051 uni:Q8MXK0 ;
+       ] ;
+    pint:networkVariety "binary"^^xsd:string ;
+    pint:accuracy "high"^^xsd:string ;

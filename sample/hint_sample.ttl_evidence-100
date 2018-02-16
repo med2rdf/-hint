@@ -1,0 +1,100 @@
+    bp3:evidenceCode obo:MI_0006 ;
+    dcterms:references <http://identifiers.org/pubmed/19269369> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_21525958-MI_0018-literature-curated
+    bp3:evidenceCode obo:MI_0018 ;
+    dcterms:references <http://identifiers.org/pubmed/21525958> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_23007400-MI_0096-literature-curated
+    bp3:evidenceCode obo:MI_0096 ;
+    dcterms:references <http://identifiers.org/pubmed/23007400> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_15605074-MI_0018-literature-curated
+    bp3:evidenceCode obo:MI_0018 ;
+    dcterms:references <http://identifiers.org/pubmed/15605074> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_21273419-MI_0004-literature-curated
+    bp3:evidenceCode obo:MI_0004 ;
+    dcterms:references <http://identifiers.org/pubmed/21273419> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_20005871-MI_0007-literature-curated
+    bp3:evidenceCode obo:MI_0007 ;
+    dcterms:references <http://identifiers.org/pubmed/20005871> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_9024666-MI_0096-literature-curated
+    bp3:evidenceCode obo:MI_0096 ;
+    dcterms:references <http://identifiers.org/pubmed/9024666> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_15294159-MI_0004-literature-curated
+    bp3:evidenceCode obo:MI_0004 ;
+    dcterms:references <http://identifiers.org/pubmed/15294159> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_16996049-MI_0416-literature-curated
+    bp3:evidenceCode obo:MI_0416 ;
+    dcterms:references <http://identifiers.org/pubmed/16996049> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_16628214-MI_0109-literature-curated
+    bp3:evidenceCode obo:MI_0109 ;
+    dcterms:references <http://identifiers.org/pubmed/16628214> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_17276341-MI_0004-literature-curated
+    bp3:evidenceCode obo:MI_0004 ;
+    dcterms:references <http://identifiers.org/pubmed/17276341> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_15895077-MI_0019-literature-curated
+    bp3:evidenceCode obo:MI_0019 ;
+    dcterms:references <http://identifiers.org/pubmed/15895077> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_20592265-MI_0004-literature-curated
+    bp3:evidenceCode obo:MI_0004 ;
+    dcterms:references <http://identifiers.org/pubmed/20592265> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_16890160-MI_0018-literature-curated
+    bp3:evidenceCode obo:MI_0018 ;
+    dcterms:references <http://identifiers.org/pubmed/16890160> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_21177529-MI_0004-literature-curated
+    bp3:evidenceCode obo:MI_0004 ;
+    dcterms:references <http://identifiers.org/pubmed/21177529> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_9027312-MI_0007-literature-curated
+    bp3:evidenceCode obo:MI_0007 ;
+    dcterms:references <http://identifiers.org/pubmed/9027312> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
+
+pint:evidence-pubmed_15752761-MI_0018-literature-curated
+    bp3:evidenceCode obo:MI_0018 ;
+    dcterms:references <http://identifiers.org/pubmed/15752761> ;
+    pint:dataSourceType  "literature-curated" ;
+    a bp3:Evidence .
