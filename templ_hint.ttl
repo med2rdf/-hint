@@ -12,7 +12,7 @@ Embedded variable list
 {{ Publication.Comma }}   # 0:put no-comma, >1:put comma
 {{ Publication.DB }}      # Database name
 {{ Publication.ID }} i    # pmid
-{{ Publication.Method }} 
+{{ Publication.Method }}
 {{ Publication.Quality }} # "high-throughput" or "literature-curated"
 #}
 
@@ -22,10 +22,10 @@ hnt:{{ message.UniprotA }}-{{ message.UniprotB }}
     bp3:evidence  {% for Publication in message.Publications %}{% if Publication.Comma > 0 %},{% endif %} pint:evidence-{{ Publication.DB }}_{{ Publication.ID }}-MI_{{ Publication.Method }}-{{ Publication.Quality }} {% endfor %} ;
     bp3:name "{{ message.UniprotA }}-{{ message.UniprotB }}"^^xsd:string ;
     bp3:participant [
-        obo:BFO_0000051 <http://idetifiers.org/uniprot/{{ message.UniprotA }}> ;
+        obo:BFO_0000051 uni:{{ message.UniprotA }} ;
        ] ;
     bp3:participant [
-        obo:BFO_0000051 <http://idetifiers.org/uniprot/{{ message.UniprotB }}> ;
+        obo:BFO_0000051 uni:{{ message.UniprotB }} ;
        ] ;
     pint:networkVariety "{{ message.proteinForm }}"^^xsd:string ;
     pint:accuracy "{{ message.hilo }}"^^xsd:string ;
