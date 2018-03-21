@@ -38,17 +38,19 @@ class Message(object):
         #Publications
         self.Publications = []
         for comma, publication in enumerate(data["pmid:method:quality"].split('|')):
-            
+
             pmids, method, quality = publication.split(':')
-            if ';' in pmids:
-                #if publication has multiple pmid               
-                for pmid in pmids.split(';'):
-                    new_publication = '%s:%s:%s' % (pmid, method, quality)
+            if ';' in pmids or ',' in pmids:
+                #if publication has multiple pmid
+                pmids = pmids.split(';') if ';' in pmids else pmids.split(',') 
+                for pmid in pmids:
+                    new_publication = '%s:%s:%s' % (pmid.strip(), method.strip(), quality.strip())
+                    comma = 1
                     self.Publications.append(Publications(comma, new_publication))
             else:
                 self.Publications.append(Publications(comma, publication))
                 pass
-        
+
         '''
         self.Publications = [ Publications(comma, publication)
                              for comma, publication in enumerate(data["pmid:method:quality"].split('|')) ]
@@ -86,12 +88,12 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
     try:
         hint_bi_allDF=pd.read_csv(bi_all, delimiter="\t")
         hint_cc_allDF=pd.read_csv(cc_al, delimiter="\t")
-    
+
         if cc_hq is not None:
             hint_bi_hqDF=pd.read_csv(bi_hq, delimiter="\t")
         else:
             hint_bi_hqDF = pd.DataFrame(columns=hint_bi_allDF.columns)
-    
+
         if cc_hq is not None:
             hint_cc_hqDF=pd.read_csv(cc_hq, delimiter="\t")
         else:
@@ -105,9 +107,9 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
     #
 
     qdiffDF=pd.merge(hint_bi_allDF, hint_bi_hqDF, on=["Uniprot_A", "Uniprot_B"], how="outer")
-    
+
     #qdiffDF.to_excel("debug/debug_%s_qdiffDF.xlsx" % uu)
-    
+
     hint_bi_onlylqDF=qdiffDF[(qdiffDF["pmid:method:quality_y"].fillna("nan") == "nan")][[
         "Uniprot_A",
         "Uniprot_B",
@@ -158,19 +160,19 @@ def read_tsv(bi_all, bi_hq, cc_al, cc_hq):
         "pmid:method:quality"]
     hint_bi_onlyhqDF["hi/lo"]="high"
     hint_bi_onlyhqDF["proteinForm"]="binary"
-    
+
     #hint_bi_onlyhqDF.to_excel("debug/debug_%s_hint_bi_onlyhqDF.xlsx" % uu)
-    
+
     hint_biDF=pd.concat([hint_bi_onlyhqDF, hint_bi_onlylqDF]).sort_index()
 
     #
     # co-complex
     #
-    
+
     qdiff2DF=pd.merge(hint_cc_allDF, hint_cc_hqDF, on=["Uniprot_A", "Uniprot_B"], how="outer")
-    
+
     #qdiff2DF.to_excel("debug/debug_%s_qdiff2DF.xlsx" % uu)
-    
+
     hint_cc_onlylqDF=qdiff2DF[(qdiff2DF["pmid:method:quality_y"].fillna("nan") == "nan")][[
         "Uniprot_A",
         "Uniprot_B",
@@ -291,8 +293,8 @@ if __name__ == '__main__':
     except Exception as e:
         logger.error("%s: %s" % (e.message,options.config))
         sys.exit()
-        
-    
+
+
     config = json.load(f)
     logger.info("Organism: %s" % ",".join([ k for k,v in config['organism'].items() ]))
 
