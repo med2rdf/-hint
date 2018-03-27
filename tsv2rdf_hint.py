@@ -37,19 +37,22 @@ class Message(object):
 
         #Publications
         self.Publications = []
-        for comma, publication in enumerate(data["pmid:method:quality"].split('|')):
-
+        comma = 0
+        for publication in data["pmid:method:quality"].split('|'):
+            
             pmids, method, quality = publication.split(':')
             if ';' in pmids or ',' in pmids:
                 #if publication has multiple pmid
                 pmids = pmids.split(';') if ';' in pmids else pmids.split(',') 
                 for pmid in pmids:
                     new_publication = '%s:%s:%s' % (pmid.strip(), method.strip(), quality.strip())
-                    comma = 1
                     self.Publications.append(Publications(comma, new_publication))
+                    comma += 1
             else:
                 self.Publications.append(Publications(comma, publication))
                 pass
+
+            comma += 1
 
         '''
         self.Publications = [ Publications(comma, publication)
