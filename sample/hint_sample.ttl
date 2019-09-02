@@ -1,0 +1,33 @@
+# HiNT
+@prefix obo:<http://purl.obolibrary.org/obo/> .
+@prefix pint:<http://purl.jp/10/pint/> .
+@prefix dcterms:<http://purl.org/dc/terms/> .
+@prefix xsd:<http://www.w3.org/2001/XMLSchema#> .
+@prefix hnt:<http://purl.jp/10/hint/> .
+@prefix rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix pfm:<http://identifiers.org/Pfam/> .
+@prefix bp3:<http://www.biopax.org/release/biopax-level3.owl#> .
+@prefix uni:<http://identifiers.org/uniprot/> .
+
+
+hnt:A0A024QYV7-A0A024QYV7
+    bp3:dataSource <http://identifiers.org/HINT> ;
+    bp3:displayName "A0A024QYV7-A0A024QYV7"^^xsd:string ;
+    bp3:evidence   pint:evidence-pubmed_14667819-MI_0018-high-throughput  ;
+    bp3:name "A0A024QYV7-A0A024QYV7"^^xsd:string ;
+    bp3:participant [
+        obo:BFO_0000051 uni:A0A024QYV7 ;
+       ] ;
+    bp3:participant [
+        obo:BFO_0000051 uni:A0A024QYV7 ;
+       ] ;
+    pint:networkVariety "binary"^^xsd:string ;
+    pint:accuracy "high"^^xsd:string ;
+    a bp3:MolecularInteraction .
+
+pint:evidence-pubmed_14667819-MI_0018-high-throughput
+    bp3:evidenceCode obo:MI_0018 ;
+    dcterms:references <http://identifiers.org/pubmed/14667819> ;
+    pint:dataSourceType  "high-throughput" ;
+    a bp3:Evidence .
+
