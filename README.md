@@ -11,6 +11,8 @@ Store the source file(tsv) to be converted in the following directory.
 
     data_h
 
+![image](https://github.com/med2rdf/document/blob/master/hint_file_download.png)
+
 ## Cinfiguration
 Edit the following definition file.
 
