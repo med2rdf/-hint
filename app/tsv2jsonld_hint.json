@@ -1,0 +1,13 @@
+{
+	"organism":{
+		"HomoSapiens":{
+			"binary_all":"HomoSapiens_binary_all.txt",
+			"binary_hq":"HomoSapiens_binary_hq.txt",
+			"cocomp_all":"HomoSapiens_cocomp_all.txt",
+			"cocomp_hq":"HomoSapiens_cocomp_hq.txt"
+		}
+	},
+	"output_file":"data/output/hint.jsonl",
+	"data_path":"data/input",
+	"context_path":"http://host.docker.internal/context/context.jsonld"
+}

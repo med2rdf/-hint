@@ -1,0 +1,35 @@
+{
+  "@context":
+  {
+    "obo": "http://purl.obolibrary.org/obo/",
+    "pint": "http://purl.jp/10/pint/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "hnt": "http://purl.jp/10/hint/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "pfm": "http://identifiers.org/Pfam/",
+    "bp3": "http://www.biopax.org/release/biopax-level3.owl#",
+    "uni": "http://identifiers.org/uniprot/",
+    "bp3:dataSource": {
+      "@type": "@id"
+    },
+    "bp3:displayName": {
+      "@type": "xsd:string"
+    },
+    "bp3:name": {
+      "@type": "xsd:string"
+    },
+    "pint:networkVariety": {
+      "@type": "xsd:string"
+    },
+    "pint:accuracy": {
+      "@type": "xsd:string"
+    },
+    "bp3:evidenceCode": {
+      "@type": "@id"
+    },
+    "dcterms:references": {
+      "@type": "@id"
+    }
+  }
+}
