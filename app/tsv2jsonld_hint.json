@@ -1,13 +1,45 @@
 {
-	"organism":{
-		"HomoSapiens":{
-			"binary_all":"HomoSapiens_binary_all.txt",
-			"binary_hq":"HomoSapiens_binary_hq.txt",
-			"cocomp_all":"HomoSapiens_cocomp_all.txt",
-			"cocomp_hq":"HomoSapiens_cocomp_hq.txt"
+	"hint_url": "http://hint.yulab.org/download/",
+	"organism": {
+		"HomoSapiens": {
+			"taxid": 9606
+		},
+		"SaccharomycesCerevisiaeS288C": {
+			"taxid": 4932
+		},
+		"SchizosaccharomycesPombe972H": {
+			"taxid": 4896
+		},
+		"MusMusculus": {
+			"taxid": 10090
+		},
+		"DrosophilaMelanogaster": {
+			"taxid": 7227
+		},
+		"CaenorhabditisElegans": {
+			"taxid": 6239
+		},
+		"ArabidopsisThaliana": {
+			"taxid": 3702
+		},
+		"BacillusSubtilisSubspSubtilisStr168": {
+			"taxid": 1423
+		},
+		"BosTaurus": {
+			"taxid": 9913
+		},
+		"EscherichiaColiK12": {
+			"taxid": 562
+		},
+		"RattusNorvegicus": {
+			"taxid": 10116
+		},
+		"OryzaSativa": {
+			"taxid": 4530
 		}
 	},
-	"output_file":"data/output/hint.jsonl",
-	"data_path":"data/input",
-	"context_path":"http://host.docker.internal/context/context.jsonld"
+	"output_file_prefix": "HiNT_",
+	"output_dir": "data/output/",
+	"data_path": "data/input/",
+	"context_path": "http://host.docker.internal/context/context.jsonld"
 }

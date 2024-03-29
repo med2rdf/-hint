@@ -1,34 +1,63 @@
 {
-  "@context":
-  {
-    "obo": "http://purl.obolibrary.org/obo/",
-    "pint": "http://purl.jp/10/pint/",
-    "dcterms": "http://purl.org/dc/terms/",
-    "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "hnt": "http://purl.jp/10/hint/",
+  "@context": {
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "dct": "http://purl.org/dc/terms/",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "obo": "http://purl.obolibrary.org/obo/",
+    "up": "http://identifiers.org/uniprot/",
+    "pmid": "http://rdf.ncbi.nlm.nih.gov/pubmed/",
+    "pdb": "https://rdf.wwpdb.org/pdb/",
+    "m2r": "http://med2rdf.org/ontology/med2rdf#",
+    "hint": "http://med2rdf.org/dataset/hint/",
+    "hinto": "http://med2rdf.org/ontology/hint#",
+    "taxid": "http://identifiers.org/taxonomy/",
     "pfm": "http://identifiers.org/Pfam/",
     "bp3": "http://www.biopax.org/release/biopax-level3.owl#",
-    "uni": "http://identifiers.org/uniprot/",
-    "bp3:dataSource": {
+    "pint": "http://purl.jp/10/pint/",
+    "label": {
+      "@id": "rdfs:label"
+    },
+    "participant": {
+      "@id": "m2r:participant",
       "@type": "@id"
     },
-    "bp3:displayName": {
-      "@type": "xsd:string"
+    "evidence": {
+      "@id": "hinto:evidence"
     },
-    "bp3:name": {
-      "@type": "xsd:string"
-    },
-    "pint:networkVariety": {
-      "@type": "xsd:string"
-    },
-    "pint:accuracy": {
-      "@type": "xsd:string"
-    },
-    "bp3:evidenceCode": {
+    "reference": {
+      "@id": "dct:references",
       "@type": "@id"
     },
-    "dcterms:references": {
+    "method": {
+      "@id": "hinto:method",
+      "@type": "@id"
+    },
+    "quality": {
+      "@id": "hinto:quality"
+    },
+    "category": {
+      "@id": "hinto:category"
+    },
+    "accuracy": {
+      "@id": "hinto:accuracy"
+    },
+    "taxonomy": {
+      "@id": "obo:RO_0002162",
+      "@type": "@id"
+    },
+    "provenance": {
+      "@id": "m2r:provenance",
+      "@type": "@id"
+    },
+    "evidenceCode": {
+      "@id": "bp3:evidenceCode",
+      "@type": "@id"
+    },
+    "dataSourceType": {
+      "@id": "pint:dataSourceType",
       "@type": "@id"
     }
   }
